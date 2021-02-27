@@ -5,8 +5,8 @@ $(document).ready(function(){
     var markup = '<tr>' +
                  '<td class="rpt"><input step="1" type="number" value="0"></td>' +
                  '<td class="num"><input step="1" type="number" value="0"></td>' +
-                 '<td class="sti"></td><td class="inc"></td>' +
-                 '<td class="frac"></td><td class="rule"></td></tr>';
+                 '<td class="sti"></td><td class="inc"></td><td class="frac">' +
+                 '</td><td class="rule"></td><td class="rule-rpt"></td></tr>';
     $("table.stripes tbody tr:last").prev().after(markup);
     $('table.stripes input').change(update);
     $(".delete-row").prop("disabled", $('table.stripes tr').length <= 3);
@@ -35,8 +35,9 @@ function update() {
     }
     var d = sti - s;
     tr.find('td.inc').html(d);
-    var m = Math.abs(d / gcd(d, s));
-    var n = Math.abs(s / gcd(d, s));
+    var q = gcd(d, s);
+    var m = Math.abs(d / q);
+    var n = Math.abs(s / q);
     tr.find('td.frac').html(m + "/" + n);
     var rule = '<span>';
     for (x = 1; x <= m; x++) {
@@ -48,6 +49,7 @@ function update() {
     }
     rule = rule + '</span>';
     tr.find('td.rule').html(rule);
+    tr.find('td.rule-rpt').html(q);
     s = sti;
   }
 }
